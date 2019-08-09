@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ecommit.Admin.AdminCategoryActivity;
+import com.example.ecommit.Admin.AdminHomeActivity;
+import com.example.ecommit.Sellers.SellerProductCategoryActivity;
 import com.example.ecommit.Model.Users;
 import com.example.ecommit.Prevalent.Prevalent;
 import com.example.ecommit.R;
@@ -132,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Welcome Admin,you are  logged in Successful...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
-                                Intent intent=new Intent(LoginActivity.this, AdminCategoryActivity.class);
+                                Intent intent=new Intent(LoginActivity.this, AdminHomeActivity.class);
                                 startActivity(intent);
                             }
                             else if(parrentDbName.equals("Users"))
