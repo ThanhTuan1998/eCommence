@@ -22,8 +22,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AdminNewOrdersActivity extends AppCompatActivity
-{
+public class AdminNewOrdersActivity extends AppCompatActivity {
     private RecyclerView ordersList;
     private DatabaseReference orderRef;
 
@@ -41,41 +40,37 @@ public class AdminNewOrdersActivity extends AppCompatActivity
 
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
 
         FirebaseRecyclerOptions<AdminOrders> options =
                 new FirebaseRecyclerOptions.Builder<AdminOrders>()
-                .setQuery(orderRef, AdminOrders.class)
-                .build();
+                        .setQuery(orderRef, AdminOrders.class)
+                        .build();
 
         FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder> adapter =
                 new FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, final int position, @NonNull final AdminOrders model)
-                    {
+                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, final int position, @NonNull final AdminOrders model) {
                         holder.userName.setText("Name: " + model.getName());
-                        holder.userPhoneNumber.setText("Phone: " +model.getPhone());
-                        holder.userTotalPrice.setText("Total Amount= $" +model.getTotalAmount());
-                        holder.userDateTime.setText("Order at: " +model.getDate() + "  " + model.getTime());
-                        holder.userShippingAddress.setText("Shipping Address: " + model.getAddress() + ", " +model.getCity());
+                        holder.userPhoneNumber.setText("Phone: " + model.getPhone());
+                        holder.userTotalPrice.setText("Total Amount= $" + model.getTotalAmount());
+                        holder.userDateTime.setText("Order at: " + model.getDate() + "  " + model.getTime());
+                        holder.userShippingAddress.setText("Shipping Address: " + model.getAddress() + ", " + model.getCity());
 
                         holder.ShowOrdersBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view)
-                            {
+                            public void onClick(View view) {
                                 String uID = getRef(position).getKey();
 
                                 Intent intent = new Intent(AdminNewOrdersActivity.this, AdminUserProductsActivity.class);
-                                intent.putExtra("uid",uID);
+                                intent.putExtra("uid", uID);
                                 startActivity(intent);
                             }
                         });
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view)
-                            {
+                            public void onClick(View view) {
                                 CharSequence options[] = new CharSequence[]
                                         {
                                                 "Yes",
@@ -86,15 +81,11 @@ public class AdminNewOrdersActivity extends AppCompatActivity
 
                                 builder.setItems(options, new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onClick(DialogInterface dialogInterface, int i)
-                                    {
-                                        if(i == 0)
-                                        {
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        if (i == 0) {
                                             String uID = getRef(position).getKey();
                                             RemoveOrder(uID);
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             finish();
                                         }
                                     }
@@ -106,10 +97,9 @@ public class AdminNewOrdersActivity extends AppCompatActivity
 
                     @NonNull
                     @Override
-                    public AdminOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-                    {
+                    public AdminOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_layout, parent, false);
-                        return  new AdminOrdersViewHolder(view);
+                        return new AdminOrdersViewHolder(view);
                     }
                 };
         ordersList.setAdapter(adapter);
@@ -117,13 +107,11 @@ public class AdminNewOrdersActivity extends AppCompatActivity
     }
 
 
-    public static class AdminOrdersViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class AdminOrdersViewHolder extends RecyclerView.ViewHolder {
         public TextView userName, userPhoneNumber, userTotalPrice, userDateTime, userShippingAddress;
         public Button ShowOrdersBtn;
 
-        public AdminOrdersViewHolder(@NonNull View itemView)
-        {
+        public AdminOrdersViewHolder(@NonNull View itemView) {
             super(itemView);
 
             userName = itemView.findViewById(R.id.order_user_name);
@@ -135,8 +123,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity
         }
     }
 
-    private void RemoveOrder(String uID)
-    {
+    private void RemoveOrder(String uID) {
         orderRef.child(uID).removeValue();
     }
 }
